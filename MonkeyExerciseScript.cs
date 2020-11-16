@@ -26,7 +26,7 @@ public class MonkeyExerciseScript : MonoBehaviour
     // Initial position, rotation and scale values
     readonly List<Vector3> initialPositions = new List<Vector3>();
     readonly List<Quaternion> initialRotations = new List<Quaternion>();
-    readonly List<Vector3> initialScales= new List<Vector3>();
+    readonly List<Vector3> initialScales = new List<Vector3>();
 
     int currentMonkey = 0;
     int currentTask = 1;
@@ -165,7 +165,7 @@ public class MonkeyExerciseScript : MonoBehaviour
                 monkey0.transform.Translate(Vector3.back * 8);
                 break;
             case 1: // transform monkey 1
-                monkey1.transform.Translate(Vector3.back * 8,Space.World);
+                monkey1.transform.Translate(Vector3.back * 8, Space.World);
                 monkey1.transform.Rotate(0.0f, 135.0f, 0.0f, Space.Self);
                 break;
             case 2: // transform monkey 2
@@ -216,7 +216,7 @@ public class MonkeyExerciseScript : MonoBehaviour
                 transInputMat = Matrix4x4.Translate(new Vector3(0, 0, -8));
                 // accumulate inputs through multiplication of your input matrices to the local transformation matrix of this Game Object 
                 // be careful with the order of operations; matrix multiplication is not commutative
-                Matrix4x4 newMat = localMat * transInputMat;              
+                Matrix4x4 newMat = localMat * transInputMat;
                 // the final computed matrix is applied to transform of the given game object
                 SetTransformByMatrix(monkey0, newMat);
                 break;
@@ -273,7 +273,7 @@ public class MonkeyExerciseScript : MonoBehaviour
                 scaleInputMat = Matrix4x4.Scale(new Vector3(3, 3, 3));
                 // accumulate inputs through multiplication of your input matrices to the local transformation matrix of this Game Object 
                 // be careful with the order of operations; matrix multiplication is not commutative
-                newMat = localMat  * rotateInputMat1 * transInputMat * rotateInputMat2 * scaleInputMat;
+                newMat = localMat * rotateInputMat1 * transInputMat * rotateInputMat2 * scaleInputMat;
                 // the final computed matrix is applied to transform of the given game object
                 SetTransformByMatrix(monkey3, newMat);
                 break;
@@ -300,8 +300,8 @@ public class MonkeyExerciseScript : MonoBehaviour
             case 5: // transform monkey 5
                 // get the local transformation of this Game Object by creating a TRS matrix
                 localMat = Matrix4x4.identity;
-                translation = new Vector3(20, 5, 0);
-                rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
+                translation = new Vector3(25, 5, 0);
+                rotation = Quaternion.Euler(0.0f, 225.0f, 0.0f);
                 scale = new Vector3(1, 1, 1);
                 localMat = Matrix4x4.TRS(translation, rotation, scale);
                 // define input matrices for input accumulation (there can be multiple input matrices of each kind - translation, rotatation, and scale)
@@ -309,7 +309,7 @@ public class MonkeyExerciseScript : MonoBehaviour
                 rotateInputMat = Matrix4x4.identity;
                 scaleInputMat = Matrix4x4.identity;
                 transInputMat = Matrix4x4.Translate(new Vector3(0, 5, 0));
-                rotateInputMat1 = Matrix4x4.Rotate(Quaternion.Euler(0.0f, -45.0f, 180.0f));
+                rotateInputMat = Matrix4x4.Rotate(Quaternion.Euler(0.0f, -45.0f, 180.0f));
                 // accumulate inputs through multiplication of your input matrices to the local transformation matrix of this Game Object 
                 // be careful with the order of operations; matrix multiplication is not commutative
                 newMat = localMat * transInputMat * rotateInputMat;
@@ -416,11 +416,11 @@ public class MonkeyExerciseScript : MonoBehaviour
                 for (int k = 0; k < 4; k++)
                 {
                     mat[i, j] += lhs[i, k] * rhs[k, j];
-                    // YOUR CODE - END
-                    return mat;
                 }
             }
         }
+        // YOUR CODE - END                   
+        return mat;
     }
 
 
