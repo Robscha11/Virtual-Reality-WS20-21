@@ -8,6 +8,10 @@ public class SolarExerciseScript : MonoBehaviour
     GameObject earth;
     GameObject moon;
 
+    public float speedchange12 = 0;
+    public float speedchange3 = 0;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,16 +34,27 @@ public class SolarExerciseScript : MonoBehaviour
         // Exercise 1.7
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
+
             // YOUR CODE - BEGIN
+
+            Debug.Log("UpArrowButton : ");
+            speedchange12 += 10.0f;
+            speedchange3 += 1.0f;
 
             // YOUR CODE - END
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
+
             // YOUR CODE - BEGIN
+
+            Debug.Log("DownArrowButton : ");
+            speedchange12 -= 10;
+            speedchange3 -= 1;
 
             // YOUR CODE - END
         }
+
 
         // Comment in for exercise 1.8
         //RotateAroundParent(earthTransform, 20);
