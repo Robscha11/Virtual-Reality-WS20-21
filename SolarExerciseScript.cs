@@ -25,10 +25,13 @@ public class SolarExerciseScript : MonoBehaviour
     {
         // Exercise 1.9
         // Check if unity world matrix is the same as your own GetWorldTransform.
-        //if (!CompareMatrix(moon))
-        //{
-        //    Debug.Log("not the same - solve exercise 1.9");
-        //}
+        if (!CompareMatrix(moon))
+        {
+            Debug.Log("not the same - solve exercise 1.9");
+        } else
+        {
+            Debug.Log("the same - solved exercise 1.9");
+        }
 
         // Control Speed with Arrow Buttons 
         // Exercise 1.7
@@ -49,23 +52,23 @@ public class SolarExerciseScript : MonoBehaviour
             // YOUR CODE - BEGIN
 
             Debug.Log("DownArrowButton : ");
-            speedchange12 -= 10;
-            speedchange3 -= 1;
+            speedchange12 -= 10.0f;
+            speedchange3 -= 1.0f;
 
             // YOUR CODE - END
         }
 
 
         // Comment in for exercise 1.8
-        //RotateAroundParent(earthTransform, 20);
-        //RotateAroundParent(moonTransform, 10);
+        RotateAroundParent(earth, 20.0f);
+        RotateAroundParent(moon, 10.0f);
     }
 
     // Exercise 1.8
     void RotateAroundParent(GameObject go, float rotationVelocity)
     {
         // YOUR CODE - BEGIN
-
+        go.transform.RotateAround(go.transform.parent.position, Vector3.up, rotationVelocity * Time.deltaTime);  //set rotation speed with no hardware dependencies
         // YOUR CODE - END
     }
 
@@ -74,7 +77,13 @@ public class SolarExerciseScript : MonoBehaviour
     {
         Matrix4x4 mat = new Matrix4x4();
         // YOUR CODE - BEGIN
-
+        Matrix4x4 localMat = Matrix4x4.TRS(go.transform.position, go.transform.rotation, go.transform.lossyScale);
+        int counter = go.transform.hierarchyCount;
+        for (int i=0; i < counter; i++)
+        {
+            mat = localMat * Matrix4x4.TRS(go.transform.parent.position, go.transform.parent.rotation, go.transform.parent.lossyScale);
+            localMat = mat;
+        }
         // YOUR CODE - END
         return mat;
     }

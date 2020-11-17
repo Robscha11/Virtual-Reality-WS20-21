@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Component : MonoBehaviour { 
+public class Component : MonoBehaviour
+{
 
-    
     GameObject earthAxis;
     GameObject moonAxis;
     GameObject earthGeometry;
@@ -32,11 +32,11 @@ public class Component : MonoBehaviour {
         earthAxis = GameObject.Find("EarthAxis");
         moonAxis = GameObject.Find("MoonAxis");
         earthGeometry = GameObject.Find("EarthGeometry");
-       
+
         moon = GameObject.Find("Moon");
         sun = GameObject.Find("Sun");
 
-        rotSpeed1 = rotSpeed2 = GetComponent<SolarExerciseScript>().speedchange12;  // regarding Ex. 1.7 - Accsess to other Script
+        rotSpeed1 = rotSpeed2 = GetComponent<SolarExerciseScript>().speedchange12;  // regarding Ex. 1.7 - Access to other Script
         rotSpeed3 = GetComponent<SolarExerciseScript>().speedchange3;               // start init Rota. with upArrowButton !
 
         Debug.Log("rotSpeed1 : " + rotSpeed1);
