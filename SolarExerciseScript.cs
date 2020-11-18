@@ -16,7 +16,9 @@ public class SolarExerciseScript : MonoBehaviour
     void Start()
     {
         // YOUR CODE - BEGIN
-
+        earth = GameObject.Find("Earth");
+        moon = GameObject.Find("Moon");
+        sun = GameObject.Find("Sun");
         // YOUR CODE - END
     }
 
