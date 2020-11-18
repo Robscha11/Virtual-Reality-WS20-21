@@ -347,19 +347,99 @@ public class MonkeyExerciseScript : MonoBehaviour
                 SetTransformByMatrix(monkey0, newMat);
                 break;
             case 1: // transform monkey 1
-
+                // get the local transformation of this Game Object by creating a TRS matrix
+                localMat = Matrix4x4.identity;
+                translation = new Vector3(5, 5, 0);
+                rotation = Quaternion.Euler(0.0f, 45.0f, 0.0f);
+                scale = new Vector3(1, 1, 1);
+                localMat = Matrix4x4.TRS(translation, rotation, scale);
+                // define input matrices for input accumulation (there can be multiple input matrices of each kind - translation, rotatation, and scale)       
+                transInputMat = MakeTranslationMatrix(0.0f, 0.0f, 8.0f);
+                Matrix4x4 rotateInputMat = MakeRotationMatrix(135.0f, 0, 1, 0);
+                // accumulate inputs through multiplication of your input matrices to the local transformation matrix of this Game Object 
+                // be careful with the order of operations; matrix multiplication is not commutative                
+                newMat = MultiplyMatrix(localMat, rotateInputMat);
+                newMat = MultiplyMatrix(newMat, transInputMat);
+                // the final computed matrix is applied to transform of the given game object
+                SetTransformByMatrix(monkey1, newMat);
                 break;
             case 2: // transform monkey 2
-
+                // get the local transformation of this Game Object by creating a TRS matrix
+                localMat = Matrix4x4.identity;
+                translation = new Vector3(10, 5, 0);
+                rotation = Quaternion.Euler(0.0f, 90.0f, 0.0f);
+                scale = new Vector3(1, 1, 1);
+                localMat = Matrix4x4.TRS(translation, rotation, scale);
+                // define input matrices for input accumulation (there can be multiple input matrices of each kind - translation, rotatation, and scale)
+                transInputMat = Matrix4x4.identity;
+                rotateInputMat = Matrix4x4.identity;
+                transInputMat = Matrix4x4.Translate(new Vector3(0, 0, -8));
+                rotateInputMat = Matrix4x4.Rotate(Quaternion.Euler(0.0f, -90.0f, 90.0f));
+                // accumulate inputs through multiplication of your input matrices to the local transformation matrix of this Game Object 
+                // be careful with the order of operations; matrix multiplication is not commutative
+                newMat = localMat * rotateInputMat * transInputMat;
+                // the final computed matrix is applied to transform of the given game object
+                SetTransformByMatrix(monkey2, newMat);
                 break;
             case 3: // transform monkey 3
-
+                // get the local transformation of this Game Object by creating a TRS matrix
+                localMat = Matrix4x4.identity;
+                translation = new Vector3(15, 5, 0);
+                rotation = Quaternion.Euler(0.0f, 135.0f, 0.0f);
+                scale = new Vector3(1, 1, 1);
+                localMat = Matrix4x4.TRS(translation, rotation, scale);
+                // define input matrices for input accumulation (there can be multiple input matrices of each kind - translation, rotatation, and scale)
+                transInputMat = Matrix4x4.identity;
+                rotateInputMat = Matrix4x4.identity;
+                Matrix4x4 scaleInputMat = Matrix4x4.identity;
+                transInputMat = Matrix4x4.Translate(new Vector3(0, 3, -8));
+                Matrix4x4 rotateInputMat1 = Matrix4x4.Rotate(Quaternion.Euler(0.0f, -135.0f, 0.0f));
+                Matrix4x4 rotateInputMat2 = Matrix4x4.Rotate(Quaternion.Euler(0.0f, -45.0f, 315.0f));
+                scaleInputMat = Matrix4x4.Scale(new Vector3(3, 3, 3));
+                // accumulate inputs through multiplication of your input matrices to the local transformation matrix of this Game Object 
+                // be careful with the order of operations; matrix multiplication is not commutative
+                newMat = localMat * rotateInputMat1 * transInputMat * rotateInputMat2 * scaleInputMat;
+                // the final computed matrix is applied to transform of the given game object
+                SetTransformByMatrix(monkey3, newMat);
                 break;
             case 4: // transform monkey 4
-
+                // get the local transformation of this Game Object by creating a TRS matrix
+                localMat = Matrix4x4.identity;
+                translation = new Vector3(20, 5, 0);
+                rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
+                scale = new Vector3(1, 1, 1);
+                localMat = Matrix4x4.TRS(translation, rotation, scale);
+                // define input matrices for input accumulation (there can be multiple input matrices of each kind - translation, rotatation, and scale)
+                transInputMat = Matrix4x4.identity;
+                rotateInputMat = Matrix4x4.identity;
+                scaleInputMat = Matrix4x4.identity;
+                transInputMat = Matrix4x4.Translate(new Vector3(0, 5, -5));
+                rotateInputMat = Matrix4x4.Rotate(Quaternion.Euler(45.0f, -180.0f, 0.0f));
+                scaleInputMat = Matrix4x4.Scale(new Vector3(2, 2, 2));
+                // accumulate inputs through multiplication of your input matrices to the local transformation matrix of this Game Object 
+                // be careful with the order of operations; matrix multiplication is not commutative
+                newMat = localMat * transInputMat * rotateInputMat * scaleInputMat;
+                // the final computed matrix is applied to transform of the given game object
+                SetTransformByMatrix(monkey4, newMat);
                 break;
             case 5: // transform monkey 5
-
+                // get the local transformation of this Game Object by creating a TRS matrix
+                localMat = Matrix4x4.identity;
+                translation = new Vector3(25, 5, 0);
+                rotation = Quaternion.Euler(0.0f, 225.0f, 0.0f);
+                scale = new Vector3(1, 1, 1);
+                localMat = Matrix4x4.TRS(translation, rotation, scale);
+                // define input matrices for input accumulation (there can be multiple input matrices of each kind - translation, rotatation, and scale)
+                transInputMat = Matrix4x4.identity;
+                rotateInputMat = Matrix4x4.identity;
+                scaleInputMat = Matrix4x4.identity;
+                transInputMat = Matrix4x4.Translate(new Vector3(0, 5, 0));
+                rotateInputMat = Matrix4x4.Rotate(Quaternion.Euler(0.0f, -45.0f, 180.0f));
+                // accumulate inputs through multiplication of your input matrices to the local transformation matrix of this Game Object 
+                // be careful with the order of operations; matrix multiplication is not commutative
+                newMat = localMat * transInputMat * rotateInputMat;
+                // the final computed matrix is applied to transform of the given game object
+                SetTransformByMatrix(monkey5, newMat);
                 break;
             // YOUR CODE - END
             default:
@@ -381,7 +461,7 @@ public class MonkeyExerciseScript : MonoBehaviour
         Matrix4x4 mat = Matrix4x4.identity;
         // YOUR CODE - BEGIN
         Vector4 translation = new Vector4(x, y, z, 1);
-        mat.SetRow(3, translation);
+        mat.SetColumn(3, translation);
         // YOUR CODE - END
         return mat;
     }
@@ -390,7 +470,24 @@ public class MonkeyExerciseScript : MonoBehaviour
     {
         Matrix4x4 mat = Matrix4x4.identity;
         // YOUR CODE - BEGIN
-
+        if (ax_x == 1)
+        {
+            mat.SetColumn(1, new Vector4(0, Mathf.Cos(degrees), Mathf.Sin(degrees), 0));
+            mat.SetColumn(2, new Vector4(0, -Mathf.Sin(degrees), Mathf.Cos(degrees), 0));
+        } else if (ax_y == 1)
+        {
+            mat.SetColumn(0, new Vector4(Mathf.Cos(degrees), 0, -Mathf.Sin(degrees), 0));
+            mat.SetColumn(2, new Vector4(Mathf.Sin(degrees), 0, Mathf.Cos(degrees), 0));
+        } else if (ax_y == 1)
+        {
+            mat.SetColumn(0, new Vector4(Mathf.Cos(degrees), -Mathf.Sin(degrees), 0, 0));
+            mat.SetColumn(1, new Vector4(-Mathf.Sin(degrees), Mathf.Cos(degrees), 0, 0));
+        }
+        /*
+        mat.SetColumn(0, new Vector4(Mathf.Cos(degrees) + (ax_x * ax_x) * (1 - Mathf.Cos(degrees)), ax_y * ax_x * (1 - Mathf.Cos(degrees)) + ax_z * Mathf.Sin(degrees), ax_z * ax_x * (1 - Mathf.Cos(degrees)) - ax_y * Mathf.Sin(degrees), 0));
+        mat.SetColumn(1, new Vector4(ax_x * ax_y * (1 - Mathf.Cos(degrees)) - ax_z * Mathf.Sin(degrees), Mathf.Cos(degrees) + (ax_y * ax_y) * (1 - Mathf.Cos(degrees)), ax_z * ax_y * (1 - Mathf.Cos(degrees)) + ax_x * Mathf.Sin(degrees), 0));
+        mat.SetColumn(2, new Vector4(ax_x * ax_z * (1 - Mathf.Cos(degrees)) + ax_y * Mathf.Sin(degrees), ax_y * ax_z * (1 - Mathf.Cos(degrees)) - ax_x * Mathf.Sin(degrees), Mathf.Cos(degrees) + (ax_z * ax_z) * (1 - Mathf.Cos(degrees)), 0));
+        */
         // YOUR CODE - END
         return mat;
     }
@@ -399,7 +496,9 @@ public class MonkeyExerciseScript : MonoBehaviour
     {
         Matrix4x4 mat = Matrix4x4.identity;
         // YOUR CODE - BEGIN
-
+        mat.SetColumn(0, new Vector4(sx, 0, 0, 0));
+        mat.SetColumn(1, new Vector4(0, sy, 0, 0));
+        mat.SetColumn(2, new Vector4(0, 0, sz, 0));
         // YOUR CODE - END
         return mat;
     }
@@ -422,7 +521,6 @@ public class MonkeyExerciseScript : MonoBehaviour
         // YOUR CODE - END                   
         return mat;
     }
-
 
     // Reset monkey head with index 
     void ResetMonkey(int monkeyIndex)
