@@ -1,10 +1,16 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Component : MonoBehaviour
-{
 
+// Group:
+// Immatriculation Number 122264
+// Immatriculation Number 120617
+
+
+public class Component : MonoBehaviour { 
+
+    
     GameObject earthAxis;
     GameObject moonAxis;
     GameObject earthGeometry;
@@ -23,6 +29,7 @@ public class Component : MonoBehaviour
     {
         earth = GameObject.Find("Earth");
         earth.transform.localRotation = Quaternion.Euler(0, 0, 23.5f);  // init. Earth axis/orbit tilt (only 1 times) 
+
     }
 
     // Update is called once per frame
@@ -32,7 +39,7 @@ public class Component : MonoBehaviour
         earthAxis = GameObject.Find("EarthAxis");
         moonAxis = GameObject.Find("MoonAxis");
         earthGeometry = GameObject.Find("EarthGeometry");
-
+       
         moon = GameObject.Find("Moon");
         sun = GameObject.Find("Sun");
 
@@ -43,10 +50,13 @@ public class Component : MonoBehaviour
         Debug.Log("rotSpeed2 : " + rotSpeed2);
         Debug.Log("rotSpeed3 : " + rotSpeed3);
 
-
+        // in comments for ex1.8. from here 
+        // Note : control rotation with arrow button !
+        
         earth.transform.Rotate(new Vector3(0, 1, 0), rotSpeed1 * Time.deltaTime);  //set rotation speed with no hardware dependencies
         moon.transform.Rotate(Vector3.up, rotSpeed2 * Time.deltaTime);
-
         sun.transform.RotateAround(Vector3.zero, Vector3.up, rotSpeed3 * Time.deltaTime);
+        
+        //  to here
     }
 }
