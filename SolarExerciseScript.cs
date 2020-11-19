@@ -1,12 +1,20 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+// Group:
+// Immatriculation Number 122264
+// Immatriculation Number 120617
 
 public class SolarExerciseScript : MonoBehaviour
 {
     GameObject sun;
     GameObject earth;
     GameObject moon;
+
+    GameObject earthAxis;
+    GameObject moonAxis;
+    GameObject earthGeometry;
 
     public float speedchange12 = 0;
     public float speedchange3 = 0;
@@ -19,6 +27,10 @@ public class SolarExerciseScript : MonoBehaviour
         earth = GameObject.Find("Earth");
         moon = GameObject.Find("Moon");
         sun = GameObject.Find("Sun");
+
+        //earth = GameObject.Find("Earth");
+        //earth.transform.localRotation = Quaternion.Euler(0, 0, 23.5f);  // init. Earth axis/orbit tilt (only 1 times) 
+        
         // YOUR CODE - END
     }
 
@@ -30,7 +42,8 @@ public class SolarExerciseScript : MonoBehaviour
         if (!CompareMatrix(moon))
         {
             Debug.Log("not the same - solve exercise 1.9");
-        } else
+        }
+        else
         {
             Debug.Log("the same - solved exercise 1.9");
         }
@@ -61,9 +74,14 @@ public class SolarExerciseScript : MonoBehaviour
         }
 
 
-        // Comment in for exercise 1.8
-        RotateAroundParent(earth, 20.0f);
-        RotateAroundParent(moon, 10.0f);
+        // NOT in comments for exercise 1.8  from here 
+        // Note : start rotation with arrow button !
+        /*
+        RotateAroundParent(earth, speedchange12);
+        RotateAroundParent(moon, speedchange12);
+        sun.transform.RotateAround(Vector3.zero, Vector3.up, speedchange3 * Time.deltaTime);
+        */
+        // to here
     }
 
     // Exercise 1.8
@@ -78,22 +96,34 @@ public class SolarExerciseScript : MonoBehaviour
     Matrix4x4 GetWorldTransform(GameObject go)
     {
         Matrix4x4 mat = new Matrix4x4();
-        // YOUR CODE - BEGIN
-        Matrix4x4 localMat = Matrix4x4.TRS(go.transform.position, go.transform.rotation, go.transform.lossyScale);
-        int counter = go.transform.hierarchyCount;
-        for (int i=0; i < counter; i++)
-        {
-            mat = localMat * Matrix4x4.TRS(go.transform.parent.position, go.transform.parent.rotation, go.transform.parent.lossyScale);
-            localMat = mat;
-        }
-        // YOUR CODE - END
+
+        //Matrix4x4 localMat = Matrix4x4.TRS(go.transform.localPosition, go.transform.localRotation, go.transform.localScale);
+        //int counter = go.transform.hierarchyCount;
+        //for (int i = 0; i < counter; i++) { ... localMat = mat; ... }  // more advanced version with loop when when tree depth unknown
+
+        // Simplified version - sufficient for this task
+
+        mat = Matrix4x4.TRS(go.transform.parent.parent.localPosition, go.transform.parent.parent.localRotation, go.transform.parent.parent.localScale)
+              * Matrix4x4.TRS(go.transform.parent.localPosition, go.transform.parent.localRotation, go.transform.parent.localScale)
+              * Matrix4x4.TRS(go.transform.localPosition, go.transform.localRotation, go.transform.localScale);
+
         return mat;
     }
 
     bool CompareMatrix(GameObject go)
     {
+        Matrix4x4 Id = Matrix4x4.identity;
+        Debug.Log("identity_matrix: ");
+        Debug.Log(Id.ToString());               // prints the Identity matrix as reference
+
         Matrix4x4 unityWorldMat = Matrix4x4.TRS(go.transform.position, go.transform.rotation, go.transform.lossyScale);
+        Debug.Log("unityWorldMat: ");
+        Debug.Log(unityWorldMat.ToString());    // prints the unityWorld matrix as reference
+
         Matrix4x4 ownWorldMat = GetWorldTransform(go);
+        Debug.Log("ownWorldMat: ");
+        Debug.Log(ownWorldMat.ToString());      // prints the own calculated world matrix as reference
+
         if (unityWorldMat == ownWorldMat)
         {
             return true;
