@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 //using SpaceNavigatorDriver;
@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class Mover : MonoBehaviour
 {
-    private int mode = 0;    
+    private int mode = 0;
     public string modeString = string.Empty;
 
     private Vector3 posLF; // cursor position last frame
@@ -21,10 +21,10 @@ public class Mover : MonoBehaviour
 
     private bool spacemouse_flag = false;  // because working with gamepad
 
-    private float isotonicStartRateValueX = Input.GetAxis("Mouse X");
-    private float isotonicStartRateValueY = Input.GetAxis("Mouse Y");
-    private float isotonicStartAccValueX = Input.GetAxis("Mouse X");
-    private float isotonicStartAccValueY = Input.GetAxis("Mouse Y");
+    private float isotonicStartRateValueX;
+    private float isotonicStartRateValueY;
+    private float isotonicStartAccValueX;
+    private float isotonicStartAccValueY;
     private float m = 1.0f;
     private float n = 0.1f;
     private bool xGoForw = false;
@@ -38,10 +38,19 @@ public class Mover : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        isotonicStartRateValueX = Input.GetAxis("Mouse X");
+        isotonicStartRateValueY = Input.GetAxis("Mouse Y");
+        isotonicStartAccValueX = Input.GetAxis("Mouse X");
+        isotonicStartAccValueY = Input.GetAxis("Mouse Y");
+
         posLF = transform.position;
 
         birdie = GameObject.Find("Birdie");
         mainCamera = GameObject.Find("Main Camera");
+
+        
+
 
         // initial states
         SetMode(1); // isotonic position control
@@ -88,7 +97,7 @@ public class Mover : MonoBehaviour
             // elasticY = SpaceNavigator.Translation.y;
         }
 
-        if (spacemouse_flag == false)  
+        if (spacemouse_flag == false)
         {
             elasticX = Input.GetAxis("Horizontal") * 0.15f;
             elasticY = Input.GetAxis("Vertical") * -0.15f;
@@ -125,7 +134,7 @@ public class Mover : MonoBehaviour
     {
         Debug.Log("X: " + X);
         Debug.Log("Y: " + Y);
-        float factor = 0.05f;
+        float factor = 0.2f;
         transform.Translate(X * factor, Y * factor, 0.0f);
     }
 
@@ -143,10 +152,12 @@ public class Mover : MonoBehaviour
         // Note: the zone between -1.0 and 1.0 in x and also in y
         //       are assumed as "center-point", for better control
 
-        if (isotonicStartRateValueX > 1.0f) {               
+        if (isotonicStartRateValueX > 1.0f)
+        {
             transform.Translate(1 * Time.deltaTime, 0, 0);
         }
-        else if (isotonicStartRateValueX < -1.0f){
+        else if (isotonicStartRateValueX < -1.0f)
+        {
             transform.Translate(-1 * Time.deltaTime, 0, 0);
         }
 
@@ -172,19 +183,19 @@ public class Mover : MonoBehaviour
 
         isotonicStartAccValueX += X;
         isotonicStartAccValueY += Y;
-        
+
         // Note: the zone between -1.0 and 1.0 in x and also in y
         //       are assumed as "center-point", for better control
 
         if (isotonicStartAccValueX > 1.0f)
         {
             m += X;
-            transform.Translate(m * Time.deltaTime , 0, 0);
+            transform.Translate(m * Time.deltaTime, 0, 0);
         }
         else if (isotonicStartAccValueX < -1.0f)
         {
             m -= X;
-            transform.Translate(-m * Time.deltaTime , 0, 0);
+            transform.Translate(-m * Time.deltaTime, 0, 0);
         }
 
         if (isotonicStartAccValueY > 1.0f)
@@ -207,7 +218,7 @@ public class Mover : MonoBehaviour
         Debug.Log("Y: " + Y);
         float factor1 = 16.0f;
         float factor2 = 8.0f;
-        transform.position = (new Vector3(X*factor1, Y*factor2, 0.0f)); 
+        transform.position = (new Vector3(X * factor1, Y * factor2, 0.0f));
     }
 
     void ElasticRate(float X, float Y)
@@ -217,23 +228,28 @@ public class Mover : MonoBehaviour
         Debug.Log("Y: " + Y);
 
 
-        if (X > 0.0f) {
+        if (X > 0.0f)
+        {
             xGoForw = true;
             xGoBackw = false;
-        } else if (X < 0.0f)
+        }
+        else if (X < 0.0f)
         {
             xGoForw = false;
             xGoBackw = true;
-        } else
+        }
+        else
         {
             xGoForw = false;
             xGoBackw = false;
         }
-        
-        if (xGoForw) { 
+
+        if (xGoForw)
+        {
             transform.Translate(1 * Time.deltaTime, 0, 0);
         }
-        if (xGoBackw){
+        if (xGoBackw)
+        {
             transform.Translate(-1 * Time.deltaTime, 0, 0);
         }
 
@@ -290,17 +306,17 @@ public class Mover : MonoBehaviour
 
         if (xGoForw)
         {
-            k += X*0.03f;
+            k += X * 0.03f;
             transform.Translate(k * Time.deltaTime, 0, 0);
         }
         if (xGoBackw)
         {
-            k += X*0.03f;
-            transform.Translate( k * Time.deltaTime, 0, 0);
+            k += X * 0.03f;
+            transform.Translate(k * Time.deltaTime, 0, 0);
         }
         if (!xGoForw && !xGoBackw)
         {
-            transform.Translate( k * Time.deltaTime, 0, 0);
+            transform.Translate(k * Time.deltaTime, 0, 0);
         }
 
 
@@ -351,22 +367,22 @@ public class Mover : MonoBehaviour
         switch (mode)
         {
             case 1:
-                modeString = "isotonic position";                
+                modeString = "isotonic position";
                 break;
             case 2:
-                modeString = "isotonic rate";                
+                modeString = "isotonic rate";
                 break;
             case 3:
-                modeString = "isotonic acceleration";                
+                modeString = "isotonic acceleration";
                 break;
             case 4:
-                modeString = "elastic position";                
+                modeString = "elastic position";
                 break;
             case 5:
-                modeString = "elastic rate";                
+                modeString = "elastic rate";
                 break;
             case 6:
-                modeString = "elastic acceleration";                
+                modeString = "elastic acceleration";
                 break;
         }
 
@@ -422,49 +438,31 @@ public class Mover : MonoBehaviour
     /* YOUR EXPLANATION - BEGIN
      
         
-
         ex3.1 - isotonic-position control: 
                     suitable - easy to control, exact (dis-)placement is possible, typical mouse application
                     direct (linear or non linear) behavior between input and output
-
                     use cases: typical mouse application, e.g. under Windows or Linux,
-
         ex3.2 - isotonic-rate control:
                     suitable - but needs a little practice to find the "center" by hand, and appropriate input factorization 
                             that's why we implemented our center with a little tolerance range
-
                     use cases: CAD-appl.,
-
         ex3.3 - isotonic-accel. control:
                     suitable - but needs a little practice to find the "center" by hand, and appropriate input factorization and velocity accumulation
                             that's why we implemented our center with a little tolerance range
-
                     use cases: CAD-appl.,
                             
-
         ex3.4- elastic-position control:
                     not suitable - hard to control, bad translation (small input range --> big output range), not precise
-
                     use cases: Gaming,
-
         ex3.5 - elastic-rate control:
                     suitable - easy and precise to control (automatic centering) 
                     needs appropriate input factorization
-
                     use cases: Gaming,
-
         ex3.6 - elastic -accel. control:
                     suitable - easy and precise to control (automatic centering) 
                     needs appropriate input factorization and velocity accumulation
-
                     use cases: Gaming, Flight-simul., 
-
-
-
-
-
         based on observation of all tasks and slights of lec.5 ( especially image on page 23)
-
      YOUR EXPLANATION - END  */
 
 }
