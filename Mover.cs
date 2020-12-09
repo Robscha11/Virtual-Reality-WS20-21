@@ -145,6 +145,7 @@ public class Mover : MonoBehaviour
         Debug.Log("Y: " + Y);
         Debug.Log("isotonicStartRateValueX: " + isotonicStartRateValueX);
         Debug.Log("isotonicStartRateValueY: " + isotonicStartRateValueY);
+        
 
         isotonicStartRateValueX += X;
         isotonicStartRateValueY += Y;
@@ -180,6 +181,7 @@ public class Mover : MonoBehaviour
         Debug.Log("Y: " + Y);
         Debug.Log("isotonicStartAccValueX: " + isotonicStartAccValueX);
         Debug.Log("isotonicStartAccValueY: " + isotonicStartAccValueY);
+        float factor = 0.0001f;
 
         isotonicStartAccValueX += X;
         isotonicStartAccValueY += Y;
@@ -189,26 +191,27 @@ public class Mover : MonoBehaviour
 
         if (isotonicStartAccValueX > 1.0f)
         {
-            m += X;
-            transform.Translate(m * Time.deltaTime, 0, 0);
+            m += isotonicStartAccValueX;
+            transform.Translate(m * factor * Time.deltaTime, 0, 0);
         }
         else if (isotonicStartAccValueX < -1.0f)
         {
-            m -= X;
-            transform.Translate(-m * Time.deltaTime, 0, 0);
+            m -= isotonicStartAccValueY;
+            transform.Translate(-m * factor * Time.deltaTime, 0, 0);
         }
 
         if (isotonicStartAccValueY > 1.0f)
         {
-            n += Y;
-            transform.Translate(0, n * Time.deltaTime, 0);
+            n += isotonicStartAccValueX;
+            transform.Translate(0, n * factor * Time.deltaTime, 0);
         }
         else if (isotonicStartAccValueY < -1.0f)
         {
-            n -= Y;
-            transform.Translate(0, -n * Time.deltaTime, 0);
+            n -= isotonicStartAccValueY;
+            transform.Translate(0, -n * factor * Time.deltaTime, 0);
         }
 
+        Debug.Log("isotonicAccValueX: " + m);
         // YOUR CODE - END
     }
 
@@ -441,23 +444,23 @@ public class Mover : MonoBehaviour
         ex3.1 - isotonic-position control: 
                     suitable - easy to control, exact (dis-)placement is possible, typical mouse application
                     direct (linear or non linear) behavior between input and output
-                    use cases: typical mouse application, e.g. under Windows or Linux,
+                    use cases: typical mouse application, e.g. under Windows or Linux, moving objects on a touchscreen
         ex3.2 - isotonic-rate control:
                     suitable - but needs a little practice to find the "center" by hand, and appropriate input factorization 
                             that's why we implemented our center with a little tolerance range
-                    use cases: CAD-appl.,
+                    use cases: CAD-appl., mouse scroll button pressed to get up/down on websides
         ex3.3 - isotonic-accel. control:
-                    suitable - but needs a little practice to find the "center" by hand, and appropriate input factorization and velocity accumulation
-                            that's why we implemented our center with a little tolerance range
-                    use cases: CAD-appl.,
+                    hard - needs practice to find the "center" by hand, and appropriate input factorization and velocity accumulation
+                            that's why we implemented our center with a little tolerance range. Users could have different expectations about factorization.
+                    use cases: CAD-appl., 
                             
         ex3.4- elastic-position control:
                     not suitable - hard to control, bad translation (small input range --> big output range), not precise
-                    use cases: Gaming,
+                    use cases: Gaming, use gamepad as mouse, show sth. on a map
         ex3.5 - elastic-rate control:
                     suitable - easy and precise to control (automatic centering) 
                     needs appropriate input factorization
-                    use cases: Gaming,
+                    use cases: Gaming
         ex3.6 - elastic -accel. control:
                     suitable - easy and precise to control (automatic centering) 
                     needs appropriate input factorization and velocity accumulation
